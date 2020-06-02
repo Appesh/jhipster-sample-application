@@ -50,6 +50,13 @@ public class CacheConfiguration {
             createCache(cm, com.guitarcenter.lessons.domain.User.class.getName());
             createCache(cm, com.guitarcenter.lessons.domain.Authority.class.getName());
             createCache(cm, com.guitarcenter.lessons.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.guitarcenter.lessons.domain.Category.class.getName());
+            createCache(cm, com.guitarcenter.lessons.domain.Category.class.getName() + ".products");
+            createCache(cm, com.guitarcenter.lessons.domain.Product.class.getName());
+            createCache(cm, com.guitarcenter.lessons.domain.Product.class.getName() + ".categories");
+            createCache(cm, com.guitarcenter.lessons.domain.Customer.class.getName());
+            createCache(cm, com.guitarcenter.lessons.domain.Customer.class.getName() + ".addresses");
+            createCache(cm, com.guitarcenter.lessons.domain.Address.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
