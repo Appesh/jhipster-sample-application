@@ -1,0 +1,33 @@
+entity Courselines {
+	courseline String required maxlength(50),
+	textdescription String maxlength(4000),
+	htmldescription TextBlob,
+	image Blob
+}
+
+entity Courses {
+	coursecode String required maxlength(15),
+	coursename String required maxlength(70),
+	coursescale String required maxlength(10),
+	coursevendor String required maxlength(50),
+	coursedescription String required maxlength(255),
+	quantityinstock Integer required,
+	buyprice BigDecimal required,
+	msrp BigDecimal required
+}
+
+
+relationship OneToOne {
+	Courses{courseline required} to Courselines{courses}
+}
+
+relationship OneToMany {
+	Employees{officecode required} to Offices{employees}
+}
+
+
+// Options
+service * with serviceClass
+paginate * with pagination
+dto * with mapstruct
+filter *

@@ -1,0 +1,98 @@
+{
+  "name": "Courses",
+  "fields": [
+    {
+      "fieldName": "coursecode",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "15"
+    },
+    {
+      "fieldName": "coursename",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "70"
+    },
+    {
+      "fieldName": "coursescale",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "10"
+    },
+    {
+      "fieldName": "coursevendor",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "coursedescription",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "quantityinstock",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "buyprice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "msrp",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "courselines",
+      "otherEntityRelationshipName": "courses",
+      "relationshipValidateRules": "required",
+      "relationshipName": "courseline"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "orderdetails",
+      "otherEntityRelationshipName": "coursecode",
+      "relationshipName": "orderdetails",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200608220517",
+  "entityTableName": "courses",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

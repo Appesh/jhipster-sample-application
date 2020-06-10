@@ -1,52 +1,117 @@
-enum CategoryStatus {
-    AVAILABLE, RESTRICTED, DISABLED
+entity Courselines {
+	courseline String required maxlength(50),
+	textdescription String maxlength(4000),
+	htmldescription TextBlob,
+	image Blob
 }
 
-entity Category {
-    description String required,
-    sortOrder Integer,
-    dateAdded LocalDate,
-    dateModified LocalDate,
-    status CategoryStatus
+entity Courses {
+	coursecode String required maxlength(15),
+	coursename String required maxlength(70),
+	coursescale String required maxlength(10),
+	coursevendor String required maxlength(50),
+	coursedescription String required maxlength(255),
+	quantityinstock Integer required,
+	buyprice BigDecimal required,
+	msrp BigDecimal required
 }
 
-entity Product {
-    title String required,
-    keywords String,
-    description String,
-    rating Integer,
-    dateAdded LocalDate,
-    dateModified LocalDate
+entity Employees {
+	employeenumber Integer required,
+	lastname String required maxlength(50),
+	firstname String required maxlength(50),
+	extension String required maxlength(10),
+	email String required maxlength(100),
+	jobtitle String required maxlength(50)
 }
 
-entity Customer {
-    firstName String,
-    lastName String,
-    email String,
-    telephone String
+entity Offices {
+	officecode String required maxlength(10),
+	city String required maxlength(50),
+	phone String required maxlength(50),
+	addressline1 String required maxlength(50),
+	addressline2 String maxlength(50),
+	state String maxlength(50),
+	country String required maxlength(50),
+	postalcode String required maxlength(15),
+	territory String required maxlength(10)
 }
 
-entity Address {
-    address1 String,
-    address2 String,
-    city String,
-    postcode String required maxlength(10),
-    country String required maxlength(2)
+entity Orderdetails {
+	quantityordered Integer required,
+	priceeach BigDecimal required,
+	orderlinenumber Integer required
+}
+
+entity Orders {
+	ordernumber Integer required,
+	orderdate LocalDate required,
+	requireddate LocalDate required,
+	shippeddate LocalDate,
+	status String required maxlength(15),
+	comments String maxlength(255)
+}
+
+entity Payments {
+	checknumber String required maxlength(50),
+	paymentdate LocalDate required,
+	amount BigDecimal required
+}
+
+entity Students {
+	studentnumber Integer required,
+	lastname String required maxlength(50),
+	firstname String required maxlength(50),
+	phone String required maxlength(50),
+	addressline1 String required maxlength(50),
+	addressline2 String maxlength(50),
+	city String required maxlength(50),
+	state String maxlength(50),
+	postalcode String maxlength(15),
+	country String required maxlength(50),
+	creditlimit BigDecimal
+}
+
+
+
+// Relations
+relationship OneToMany {
+	Courses{courseline required} to Courselines{courses}
 }
 
 relationship OneToMany {
-    Customer{address} to Address{customer}
+	Employees{officecode required} to Offices{employees}
 }
 
-relationship ManyToOne {
-    Category{parent} to Category
+relationship OneToMany {
+	Employees{reportsto} to Employees{employees}
 }
 
-relationship ManyToMany {
-    Category{product(title)} to Product{category}
+relationship OneToMany {
+	Orderdetails{ordernumber required} to Orders{orderdetails}
 }
 
-paginate Address, Customer, Product, Category with pagination
-paginate Product with infinite-scroll
+relationship OneToMany {
+	Orderdetails{coursecode required} to Courses{orderdetails}
+}
 
-service Category with serviceClass
+relationship OneToMany {
+	Orders{studentnumber required} to Students{orders}
+}
+
+relationship OneToMany {
+	Payments{studentnumber required} to Students{payments}
+}
+
+relationship OneToMany {
+	Students{salesrepemployeenumber} to Employees{students}
+}
+
+
+
+// Options
+service * with serviceClass
+paginate * with pagination
+dto * with mapstruct
+filter *
+

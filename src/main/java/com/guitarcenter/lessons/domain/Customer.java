@@ -1,156 +1,245 @@
 package com.guitarcenter.lessons.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
- * A Customer.
+ * The persistent class for the CUSTOMER database table.
+ *
  */
 @Entity
-@Table(name = "customer")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "customer")
+@NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")
 public class Customer implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "CUSTOMER_ID")
+    private long customerId;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "BADGE_NUMBER")
+    private String badgeNumber;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "EXTERNAL_ID")
+    private String externalId;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "EXTERNAL_SOURCE")
+    private String externalSource;
 
-    @Column(name = "telephone")
-    private String telephone;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "LAST_BOOKED")
+    private Date lastBooked;
 
+    @Column(name = "LESSON_COUNT")
+    private String lessonCount;
+
+    @Column(name = "LOCATION_EXTERNAL_ID")
+    private String locationExternalId;
+
+    private Object updated;
+
+    @Column(name = "\"VERSION\"")
+    private BigDecimal version;
+
+    //bi-directional many-to-one association to AppointmentCustomer
     @OneToMany(mappedBy = "customer")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Address> addresses = new HashSet<>();
+    private List<AppointmentCustomer> appointmentCustomers;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() {
-        return id;
+    //bi-directional many-to-one association to CustomerStatus
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_STATUS_ID")
+    private CustomerStatus customerStatus;
+
+    //bi-directional many-to-one association to ParentDetail
+    @ManyToOne
+    @JoinColumn(name = "PARENT_ID")
+    private ParentDetail parentDetail;
+
+    //bi-directional many-to-one association to Person
+    @ManyToOne
+    @JoinColumn(name = "UPDATED_BY")
+    private Person person1;
+
+    //bi-directional many-to-one association to Person
+    @ManyToOne
+    @JoinColumn(name = "PERSON_ID")
+    private Person person2;
+
+    //bi-directional many-to-one association to Site
+    @ManyToOne
+    @JoinColumn(name = "SITE_ID")
+    private Site site;
+
+    //bi-directional many-to-many association to AppointmentSery
+    @ManyToMany
+    @JoinTable(
+        name = "CUSTOMER_APPOINTMENT_SERIES",
+        joinColumns = { @JoinColumn(name = "CUSTOMER_ID") },
+        inverseJoinColumns = { @JoinColumn(name = "APPOINTMENT_SERIES_ID") }
+    )
+    private List<AppointmentSery> appointmentSeries;
+
+    //bi-directional many-to-many association to Instrument
+    @ManyToMany
+    @JoinTable(
+        name = "CUSTOMER_INSTRUMENT",
+        joinColumns = { @JoinColumn(name = "CUSTOMER_ID") },
+        inverseJoinColumns = { @JoinColumn(name = "INSTRUMENT_ID") }
+    )
+    private List<Instrument> instruments;
+
+    public Customer() {}
+
+    public long getCustomerId() {
+        return this.customerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getBadgeNumber() {
+        return this.badgeNumber;
     }
 
-    public Customer firstName(String firstName) {
-        this.firstName = firstName;
-        return this;
+    public void setBadgeNumber(String badgeNumber) {
+        this.badgeNumber = badgeNumber;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getExternalId() {
+        return this.externalId;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
-    public Customer lastName(String lastName) {
-        this.lastName = lastName;
-        return this;
+    public String getExternalSource() {
+        return this.externalSource;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setExternalSource(String externalSource) {
+        this.externalSource = externalSource;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getLastBooked() {
+        return this.lastBooked;
     }
 
-    public Customer email(String email) {
-        this.email = email;
-        return this;
+    public void setLastBooked(Date lastBooked) {
+        this.lastBooked = lastBooked;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getLessonCount() {
+        return this.lessonCount;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public void setLessonCount(String lessonCount) {
+        this.lessonCount = lessonCount;
     }
 
-    public Customer telephone(String telephone) {
-        this.telephone = telephone;
-        return this;
+    public String getLocationExternalId() {
+        return this.locationExternalId;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setLocationExternalId(String locationExternalId) {
+        this.locationExternalId = locationExternalId;
     }
 
-    public Set<Address> getAddresses() {
-        return addresses;
+    public Object getUpdated() {
+        return this.updated;
     }
 
-    public Customer addresses(Set<Address> addresses) {
-        this.addresses = addresses;
-        return this;
+    public void setUpdated(Object updated) {
+        this.updated = updated;
     }
 
-    public Customer addAddress(Address address) {
-        this.addresses.add(address);
-        address.setCustomer(this);
-        return this;
+    public BigDecimal getVersion() {
+        return this.version;
     }
 
-    public Customer removeAddress(Address address) {
-        this.addresses.remove(address);
-        address.setCustomer(null);
-        return this;
+    public void setVersion(BigDecimal version) {
+        this.version = version;
     }
 
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
+    public List<AppointmentCustomer> getAppointmentCustomers() {
+        return this.appointmentCustomers;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Customer)) {
-            return false;
-        }
-        return id != null && id.equals(((Customer) o).id);
+    public void setAppointmentCustomers(List<AppointmentCustomer> appointmentCustomers) {
+        this.appointmentCustomers = appointmentCustomers;
     }
 
-    @Override
-    public int hashCode() {
-        return 31;
+    public AppointmentCustomer addAppointmentCustomer(AppointmentCustomer appointmentCustomer) {
+        getAppointmentCustomers().add(appointmentCustomer);
+        appointmentCustomer.setCustomer(this);
+
+        return appointmentCustomer;
     }
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Customer{" +
-            "id=" + getId() +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", telephone='" + getTelephone() + "'" +
-            "}";
+    public AppointmentCustomer removeAppointmentCustomer(AppointmentCustomer appointmentCustomer) {
+        getAppointmentCustomers().remove(appointmentCustomer);
+        appointmentCustomer.setCustomer(null);
+
+        return appointmentCustomer;
+    }
+
+    public CustomerStatus getCustomerStatus() {
+        return this.customerStatus;
+    }
+
+    public void setCustomerStatus(CustomerStatus customerStatus) {
+        this.customerStatus = customerStatus;
+    }
+
+    public ParentDetail getParentDetail() {
+        return this.parentDetail;
+    }
+
+    public void setParentDetail(ParentDetail parentDetail) {
+        this.parentDetail = parentDetail;
+    }
+
+    public Person getPerson1() {
+        return this.person1;
+    }
+
+    public void setPerson1(Person person1) {
+        this.person1 = person1;
+    }
+
+    public Person getPerson2() {
+        return this.person2;
+    }
+
+    public void setPerson2(Person person2) {
+        this.person2 = person2;
+    }
+
+    public Site getSite() {
+        return this.site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
+    }
+
+    public List<AppointmentSery> getAppointmentSeries() {
+        return this.appointmentSeries;
+    }
+
+    public void setAppointmentSeries(List<AppointmentSery> appointmentSeries) {
+        this.appointmentSeries = appointmentSeries;
+    }
+
+    public List<Instrument> getInstruments() {
+        return this.instruments;
+    }
+
+    public void setInstruments(List<Instrument> instruments) {
+        this.instruments = instruments;
     }
 }

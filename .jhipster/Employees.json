@@ -1,0 +1,97 @@
+{
+  "name": "Employees",
+  "fields": [
+    {
+      "fieldName": "employeenumber",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "lastname",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "firstname",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "extension",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "10"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "jobtitle",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "50"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "offices",
+      "otherEntityRelationshipName": "employees",
+      "relationshipValidateRules": "required",
+      "relationshipName": "officecode"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "employees",
+      "otherEntityRelationshipName": "employees",
+      "relationshipName": "reportsto"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employees",
+      "otherEntityRelationshipName": "reportsto",
+      "relationshipName": "employees",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "students",
+      "otherEntityRelationshipName": "salesrepemployeenumber",
+      "relationshipName": "students",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200608220617",
+  "entityTableName": "employees",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

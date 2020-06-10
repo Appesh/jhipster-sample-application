@@ -1,0 +1,74 @@
+{
+  "name": "Orders",
+  "fields": [
+    {
+      "fieldName": "ordernumber",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "orderdate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "requireddate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "shippeddate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "15"
+    },
+    {
+      "fieldName": "comments",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "255"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "students",
+      "otherEntityRelationshipName": "orders",
+      "relationshipValidateRules": "required",
+      "relationshipName": "studentnumber"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "orderdetails",
+      "otherEntityRelationshipName": "ordernumber",
+      "relationshipName": "orderdetails",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200608220917",
+  "entityTableName": "orders",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

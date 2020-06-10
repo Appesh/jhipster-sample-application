@@ -1,0 +1,53 @@
+{
+  "name": "Orderdetails",
+  "fields": [
+    {
+      "fieldName": "quantityordered",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "priceeach",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "orderlinenumber",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "orders",
+      "otherEntityRelationshipName": "orderdetails",
+      "relationshipValidateRules": "required",
+      "relationshipName": "ordernumber"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "courses",
+      "otherEntityRelationshipName": "orderdetails",
+      "relationshipValidateRules": "required",
+      "relationshipName": "coursecode"
+    }
+  ],
+  "changelogDate": "20200608220817",
+  "entityTableName": "orderdetails",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

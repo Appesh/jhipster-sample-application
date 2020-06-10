@@ -1,0 +1,52 @@
+{
+  "name": "Courselines",
+  "fields": [
+    {
+      "fieldName": "courseline",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required",
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "textdescription",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "maxlength"
+      ],
+      "fieldValidateRulesMaxlength": "4000"
+    },
+    {
+      "fieldName": "htmldescription",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "image",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "courses",
+      "otherEntityRelationshipName": "courseline",
+      "relationshipName": "courses",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200608220417",
+  "entityTableName": "courselines",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

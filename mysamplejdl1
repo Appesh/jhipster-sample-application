@@ -1,0 +1,166 @@
+application {
+  config {
+    applicationType monolith
+    authenticationType jwt
+    baseName jhipsterSampleApplication
+    blueprints []
+    buildTool maven
+    cacheProvider ehcache
+    clientFramework react
+    clientPackageManager npm
+    clientTheme none
+    creationTimestamp 1591124893183
+    databaseType sql
+    devDatabaseType h2Disk
+    dtoSuffix DTO
+    embeddableLaunchScript false
+    enableHibernateCache true
+    enableSwaggerCodegen true
+    enableTranslation true
+    jhiPrefix jhi
+    jhipsterVersion "6.9.1"
+    jwtSecretKey "ZjJmODg0MjY2MDkwMDc2MTg2MDRhMzc1MzViMmNjMTc0MWE0NzExMmM2NjFhNzNlYTBkMWMxMDljZDI1ZmNhYTgxZDVhODQ0Y2FhN2M0OTMxZGUzMjJhMjczOGEwYWMzMDFmNmZlMDU5OTFiZjIwODBmNGI1YjkzMzRiOTMyYzg="
+    languages [en]
+    messageBroker false
+    nativeLanguage en
+    otherModules []
+    packageName com.guitarcenter.lessons
+    prodDatabaseType mysql
+    searchEngine elasticsearch
+    serverPort 8080
+    serviceDiscoveryType eureka
+    skipClient false
+    skipServer false
+    skipUserManagement false
+    testFrameworks [cucumber]
+    uaaBaseName ../uaa
+    useSass true
+    websocket false
+  }
+
+  entities Address, Category, Courselines, Courses, Customer, Employees, Offices, Orderdetails, Orders, Payments, Product, Students
+}
+
+entity Address {
+  address1 String,
+  address2 String,
+  city String,
+  postcode String required maxlength(10),
+  country String required maxlength(2)
+}
+entity Category {
+  description String required,
+  sortOrder Integer,
+  dateAdded LocalDate,
+  dateModified LocalDate,
+  status CategoryStatus
+}
+entity Courselines {
+  courseline String required maxlength(50),
+  textdescription String maxlength(4000),
+  htmldescription TextBlob,
+  image AnyBlob
+}
+entity Courses {
+  coursecode String required maxlength(15),
+  coursename String required maxlength(70),
+  coursescale String required maxlength(10),
+  coursevendor String required maxlength(50),
+  coursedescription String required maxlength(255),
+  quantityinstock Integer required,
+  buyprice BigDecimal required,
+  msrp BigDecimal required
+}
+entity Customer {
+  firstName String,
+  lastName String,
+  email String,
+  telephone String
+}
+entity Employees {
+  employeenumber Integer required,
+  lastname String required maxlength(50),
+  firstname String required maxlength(50),
+  extension String required maxlength(10),
+  email String required maxlength(100),
+  jobtitle String required maxlength(50)
+}
+entity Offices {
+  officecode String required maxlength(10),
+  city String required maxlength(50),
+  phone String required maxlength(50),
+  addressline1 String required maxlength(50),
+  addressline2 String maxlength(50),
+  state String maxlength(50),
+  country String required maxlength(50),
+  postalcode String required maxlength(15),
+  territory String required maxlength(10)
+}
+entity Orderdetails {
+  quantityordered Integer required,
+  priceeach BigDecimal required,
+  orderlinenumber Integer required
+}
+entity Orders {
+  ordernumber Integer required,
+  orderdate LocalDate required,
+  requireddate LocalDate required,
+  shippeddate LocalDate,
+  status String required maxlength(15),
+  comments String maxlength(255)
+}
+entity Payments {
+  checknumber String required maxlength(50),
+  paymentdate LocalDate required,
+  amount BigDecimal required
+}
+entity Product {
+  title String required,
+  keywords String,
+  description String,
+  rating Integer,
+  dateAdded LocalDate,
+  dateModified LocalDate
+}
+entity Students {
+  studentnumber Integer required,
+  lastname String required maxlength(50),
+  firstname String required maxlength(50),
+  phone String required maxlength(50),
+  addressline1 String required maxlength(50),
+  addressline2 String maxlength(50),
+  city String required maxlength(50),
+  state String maxlength(50),
+  postalcode String maxlength(15),
+  country String required maxlength(50),
+  creditlimit BigDecimal
+}
+enum CategoryStatus {
+  AVAILABLE,
+  RESTRICTED,
+  DISABLED
+}
+
+relationship OneToMany {
+  Customer{address} to Address{customer},
+  Courses{courseline required} to Courselines{courses},
+  Orderdetails{coursecode required} to Courses{orderdetails},
+  Employees{reportsto} to Employees{employees},
+  Students{salesrepemployeenumber} to Employees{students},
+  Employees{officecode required} to Offices{employees},
+  Orderdetails{ordernumber required} to Orders{orderdetails},
+  Orders{studentnumber required} to Students{orders},
+  Payments{studentnumber required} to Students{payments}
+}
+relationship ManyToOne {
+  Category{parent} to Category
+}
+relationship ManyToMany {
+  Category{product(title)} to Product{category}
+}
+
+paginate Address, Category, Courselines, Courses, Customer, Employees, Offices, Orderdetails, Orders, Payments, Students with pagination
+paginate Product with infinite-scroll
+service Category, Courselines, Courses, Employees, Offices, Orderdetails, Orders, Payments, Students with serviceClass
+dto Courselines, Courses, Employees, Offices, Orderdetails, Orders, Payments, Students with mapstruct
+filter Courselines, Courses, Employees, Offices, Orderdetails, Orders, Payments, Students
